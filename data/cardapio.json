@@ -1,0 +1,37 @@
+[
+  {"id": 1, "nome": "Pizza Margherita", "restaurante": "Forno da Vila", "categoria": "pizza", "preco": 42.90, "descricao": "Molho de tomate, muçarela de búfala e manjericão fresco.", "tags": ["vegetariano"]},
+  {"id": 2, "nome": "Pizza Calabresa", "restaurante": "Forno da Vila", "categoria": "pizza", "preco": 44.90, "descricao": "Calabresa fatiada, cebola roxa e azeitonas.", "tags": []},
+  {"id": 3, "nome": "Pizza Quatro Queijos", "restaurante": "Forno da Vila", "categoria": "pizza", "preco": 49.90, "descricao": "Muçarela, provolone, gorgonzola e parmesão.", "tags": ["vegetariano"]},
+  {"id": 4, "nome": "Pizza Vegana de Legumes", "restaurante": "Forno da Vila", "categoria": "pizza", "preco": 46.90, "descricao": "Abobrinha, berinjela, pimentão e queijo vegetal de castanha.", "tags": ["vegetariano", "vegano", "sem_lactose"]},
+  {"id": 5, "nome": "Calzone de Frango", "restaurante": "Forno da Vila", "categoria": "pizza", "preco": 38.90, "descricao": "Frango desfiado, catupiry e milho.", "tags": []},
+
+  {"id": 6, "nome": "Smash Clássico", "restaurante": "Brasa Burguer", "categoria": "hamburguer", "preco": 29.90, "descricao": "Dois smashes de 80g, queijo cheddar e molho da casa.", "tags": []},
+  {"id": 7, "nome": "Burguer Bacon Duplo", "restaurante": "Brasa Burguer", "categoria": "hamburguer", "preco": 36.90, "descricao": "Blend de 180g, bacon crocante e cebola caramelizada.", "tags": []},
+  {"id": 8, "nome": "Burguer de Grão-de-Bico", "restaurante": "Brasa Burguer", "categoria": "hamburguer", "preco": 32.90, "descricao": "Hambúrguer de grão-de-bico, alface, tomate e maionese vegana.", "tags": ["vegetariano", "vegano", "sem_lactose"]},
+  {"id": 9, "nome": "Burguer Picante", "restaurante": "Brasa Burguer", "categoria": "hamburguer", "preco": 34.90, "descricao": "Blend de 160g, jalapeño, pepper jack e molho de pimenta.", "tags": ["picante"]},
+  {"id": 10, "nome": "Batata Frita Rústica", "restaurante": "Brasa Burguer", "categoria": "acompanhamento", "preco": 16.90, "descricao": "Batatas com casca, alecrim e sal grosso.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]},
+
+  {"id": 11, "nome": "Combinado Salmão 20 peças", "restaurante": "Sakura Sushi", "categoria": "japonesa", "preco": 69.90, "descricao": "Sashimi, niguiri e uramaki de salmão.", "tags": ["sem_lactose"]},
+  {"id": 12, "nome": "Temaki de Salmão", "restaurante": "Sakura Sushi", "categoria": "japonesa", "preco": 27.90, "descricao": "Salmão, cebolinha e gergelim no cone de alga.", "tags": ["sem_lactose"]},
+  {"id": 13, "nome": "Hot Roll Philadelphia", "restaurante": "Sakura Sushi", "categoria": "japonesa", "preco": 34.90, "descricao": "10 peças empanadas de salmão com cream cheese.", "tags": []},
+  {"id": 14, "nome": "Yakisoba de Legumes", "restaurante": "Sakura Sushi", "categoria": "japonesa", "preco": 39.90, "descricao": "Macarrão oriental com legumes salteados no shoyu.", "tags": ["vegetariano", "vegano", "sem_lactose"]},
+  {"id": 15, "nome": "Sunomono", "restaurante": "Sakura Sushi", "categoria": "japonesa", "preco": 14.90, "descricao": "Salada de pepino agridoce com gergelim.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]},
+
+  {"id": 16, "nome": "Feijoada Completa", "restaurante": "Panela de Barro", "categoria": "brasileira", "preco": 45.90, "descricao": "Feijoada com arroz, couve, farofa e laranja.", "tags": ["sem_gluten", "sem_lactose"]},
+  {"id": 17, "nome": "Parmegiana de Frango", "restaurante": "Panela de Barro", "categoria": "brasileira", "preco": 39.90, "descricao": "Filé de frango empanado, molho de tomate, queijo, arroz e fritas.", "tags": []},
+  {"id": 18, "nome": "Moqueca de Peixe", "restaurante": "Panela de Barro", "categoria": "brasileira", "preco": 58.90, "descricao": "Peixe branco no leite de coco e dendê, com arroz e pirão.", "tags": ["sem_gluten", "sem_lactose"]},
+  {"id": 19, "nome": "Baião de Dois", "restaurante": "Panela de Barro", "categoria": "brasileira", "preco": 34.90, "descricao": "Arroz, feijão-de-corda, queijo coalho e carne de sol.", "tags": ["sem_gluten"]},
+  {"id": 20, "nome": "Escondidinho de Mandioca Vegano", "restaurante": "Panela de Barro", "categoria": "brasileira", "preco": 33.90, "descricao": "Purê de mandioca com recheio de jaca refogada.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]},
+
+  {"id": 21, "nome": "Bowl de Frango Grelhado", "restaurante": "Verde Leve", "categoria": "saudavel", "preco": 31.90, "descricao": "Arroz integral, frango grelhado, brócolis e cenoura.", "tags": ["sem_gluten", "sem_lactose"]},
+  {"id": 22, "nome": "Salada Caesar", "restaurante": "Verde Leve", "categoria": "saudavel", "preco": 28.90, "descricao": "Alface romana, frango, parmesão e croutons.", "tags": []},
+  {"id": 23, "nome": "Poke de Tofu", "restaurante": "Verde Leve", "categoria": "saudavel", "preco": 35.90, "descricao": "Tofu marinado, arroz, edamame, manga e gergelim.", "tags": ["vegetariano", "vegano", "sem_lactose"]},
+  {"id": 24, "nome": "Wrap de Falafel", "restaurante": "Verde Leve", "categoria": "saudavel", "preco": 26.90, "descricao": "Falafel, homus, tomate e pepino no pão folha.", "tags": ["vegetariano", "vegano", "sem_lactose"]},
+  {"id": 25, "nome": "Suco Verde", "restaurante": "Verde Leve", "categoria": "bebida", "preco": 12.90, "descricao": "Couve, limão, gengibre e maçã.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]},
+
+  {"id": 26, "nome": "Brigadeiro Gourmet (4 un.)", "restaurante": "Doce Ponto", "categoria": "sobremesa", "preco": 14.90, "descricao": "Brigadeiros de chocolate belga.", "tags": ["vegetariano", "sem_gluten"]},
+  {"id": 27, "nome": "Brownie com Sorvete", "restaurante": "Doce Ponto", "categoria": "sobremesa", "preco": 19.90, "descricao": "Brownie quente com bola de sorvete de creme.", "tags": ["vegetariano"]},
+  {"id": 28, "nome": "Açaí 500ml", "restaurante": "Doce Ponto", "categoria": "sobremesa", "preco": 22.90, "descricao": "Açaí com banana, granola e leite condensado.", "tags": ["vegetariano"]},
+  {"id": 29, "nome": "Mousse de Maracujá Vegano", "restaurante": "Doce Ponto", "categoria": "sobremesa", "preco": 13.90, "descricao": "Mousse de maracujá com leite de coco.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]},
+  {"id": 30, "nome": "Refrigerante Lata", "restaurante": "Doce Ponto", "categoria": "bebida", "preco": 6.90, "descricao": "Lata de 350ml, sabores variados.", "tags": ["vegetariano", "vegano", "sem_gluten", "sem_lactose"]}
+]
