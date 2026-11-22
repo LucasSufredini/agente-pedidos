@@ -1,3 +1,4 @@
+import time
 from types import SimpleNamespace
 
 import httpx
@@ -38,6 +39,13 @@ def resposta_texto(texto):
     )
 
 
+@pytest.fixture(autouse=True)
+def limpar_pausas():
+    Agente._pausados_ate.clear()
+    yield
+    Agente._pausados_ate.clear()
+
+
 @pytest.fixture
 def agente(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "chave-falsa")
@@ -76,6 +84,45 @@ def test_propaga_erro_quando_todos_falham(agente):
     usar(agente, {"principal": erro_servidor(), "reserva": erro_cliente(429)})
     with pytest.raises(errors.ClientError):
         agente.responder("olá")
+
+
+def test_aceita_lista_de_reservas(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chave-falsa")
+    agente = Agente(modelo="a", modelo_reserva="b, c,")
+    assert agente.modelos == ["a", "b", "c"]
+
+
+def test_modelo_sem_cota_e_pulado_nas_proximas_chamadas(agente):
+    modelos = usar(agente, {"principal": erro_cliente(429), "reserva": resposta_texto("ok")})
+    agente.responder("primeira")
+    agente.responder("segunda")
+    assert modelos.chamados == ["principal", "reserva", "reserva"]
+
+
+def test_pausa_vale_para_outras_sessoes(agente, monkeypatch):
+    usar(agente, {"principal": erro_servidor(), "reserva": resposta_texto("ok")})
+    agente.responder("oi")
+    outro = Agente(modelo="principal", modelo_reserva="reserva")
+    modelos = usar(outro, {"principal": resposta_texto("x"), "reserva": resposta_texto("ok")})
+    outro.responder("oi")
+    assert modelos.chamados == ["reserva"]
+
+
+def test_pausa_expira(agente, monkeypatch):
+    usar(agente, {"principal": erro_cliente(429), "reserva": resposta_texto("ok")})
+    agente.responder("oi")
+    agora = time.monotonic()
+    monkeypatch.setattr(time, "monotonic", lambda: agora + 601)
+    modelos = usar(agente, {"principal": resposta_texto("voltou"), "reserva": resposta_texto("ok")})
+    assert agente.responder("oi").modelo == "principal"
+    assert modelos.chamados == ["principal"]
+
+
+def test_todos_pausados_ainda_tenta(agente):
+    Agente._pausados_ate.update({"principal": float("inf"), "reserva": float("inf")})
+    modelos = usar(agente, {"principal": resposta_texto("tentou"), "reserva": resposta_texto("x")})
+    assert agente.responder("oi").texto == "tentou"
+    assert modelos.chamados == ["principal"]
 
 
 def test_executar_ferramenta_com_argumento_invalido_devolve_erro():

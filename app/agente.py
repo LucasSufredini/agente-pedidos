@@ -1,4 +1,6 @@
+import logging
 import os
+import time
 from dataclasses import dataclass, field
 
 import httpx
@@ -9,10 +11,14 @@ from google.genai import errors, types
 from app.ferramentas import buscar_pratos, filtrar_por_preco, montar_pedido
 
 load_dotenv()
+log = logging.getLogger("agente")
 
 FERRAMENTAS = {f.__name__: f for f in (buscar_pratos, filtrar_por_preco, montar_pedido)}
 MAX_ITERACOES = 5
-TIMEOUT_MS = 45_000
+TIMEOUT_MS = 20_000
+RESERVAS_PADRAO = "gemini-3.5-flash,gemini-3.1-flash-lite"
+PAUSA_COTA_S = 600
+PAUSA_INSTABILIDADE_S = 60
 
 INSTRUCOES = """Você é o assistente de pedidos de um app de delivery. Responda em português, de forma curta e simpática.
 
@@ -49,10 +55,12 @@ class Agente:
                 ),
             ),
         )
-        self.modelos = [m for m in (
-            modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
-            modelo_reserva or os.getenv("GEMINI_MODEL_RESERVA", "gemini-3.5-flash"),
-        ) if m]
+        reservas = modelo_reserva or os.getenv("GEMINI_MODEL_RESERVA", RESERVAS_PADRAO)
+        self.modelos = [
+            m.strip()
+            for m in [modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"), *reservas.split(",")]
+            if m.strip()
+        ]
         self.config = types.GenerateContentConfig(
             system_instruction=INSTRUCOES,
             tools=list(FERRAMENTAS.values()),
@@ -62,21 +70,39 @@ class Agente:
         )
         self.historico: list[types.Content] = []
 
+    # Compartilhado entre todas as sessões: se um modelo caiu para um usuário, caiu para todos.
+    _pausados_ate: dict[str, float] = {}
+
+    def _modelos_disponiveis(self) -> list[str]:
+        agora = time.monotonic()
+        livres = [m for m in self.modelos if self._pausados_ate.get(m, 0) <= agora]
+        # Se todos estão pausados, tenta assim mesmo em vez de recusar sem perguntar.
+        return livres or self.modelos
+
+    def _pausar(self, modelo: str, segundos: float) -> None:
+        self._pausados_ate[modelo] = time.monotonic() + segundos
+
     def _gerar(self) -> tuple[types.GenerateContentResponse, str]:
         ultimo_erro = None
-        for modelo in self.modelos:
+        for modelo in self._modelos_disponiveis():
+            inicio = time.monotonic()
             try:
                 resposta = self.cliente.models.generate_content(
                     model=modelo, contents=self.historico, config=self.config
                 )
+                log.info("modelo=%s ok em %.1fs", modelo, time.monotonic() - inicio)
                 return resposta, modelo
             except (errors.ServerError, httpx.TimeoutException) as erro:
                 # 5xx ou timeout é instabilidade do provedor: tenta o modelo reserva em vez de falhar.
+                log.warning("modelo=%s instavel (%s) em %.1fs", modelo, type(erro).__name__, time.monotonic() - inicio)
+                self._pausar(modelo, PAUSA_INSTABILIDADE_S)
                 ultimo_erro = erro
             except errors.ClientError as erro:
                 # A cota é por modelo, então 429 em um não impede o reserva. Outros 4xx são bug nosso.
                 if erro.code != 429:
                     raise
+                log.warning("modelo=%s sem cota, pausado por %ds", modelo, PAUSA_COTA_S)
+                self._pausar(modelo, PAUSA_COTA_S)
                 ultimo_erro = erro
         raise ultimo_erro
 
