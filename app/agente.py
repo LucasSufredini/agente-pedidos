@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass, field
 
+import httpx
 from dotenv import load_dotenv
 from google import genai
 from google.genai import errors, types
@@ -11,6 +12,7 @@ load_dotenv()
 
 FERRAMENTAS = {f.__name__: f for f in (buscar_pratos, filtrar_por_preco, montar_pedido)}
 MAX_ITERACOES = 5
+TIMEOUT_MS = 45_000
 
 INSTRUCOES = """Você é o assistente de pedidos de um app de delivery. Responda em português, de forma curta e simpática.
 
@@ -32,7 +34,21 @@ class Resposta:
 
 class Agente:
     def __init__(self, modelo: str | None = None, modelo_reserva: str | None = None):
-        self.cliente = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        self.cliente = genai.Client(
+            api_key=os.environ["GEMINI_API_KEY"],
+            # Por padrão o SDK insiste por minutos num modelo sobrecarregado; limitamos para
+            # que o modelo reserva assuma rápido.
+            http_options=types.HttpOptions(
+                timeout=TIMEOUT_MS,
+                retry_options=types.HttpRetryOptions(
+                    attempts=2,
+                    initial_delay=1.0,
+                    max_delay=4.0,
+                    # Sem 429: cota esgotada não volta em segundos, repetir só atrasa o fallback.
+                    http_status_codes=[500, 502, 503, 504],
+                ),
+            ),
+        )
         self.modelos = [m for m in (
             modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
             modelo_reserva or os.getenv("GEMINI_MODEL_RESERVA", "gemini-3.5-flash"),
@@ -54,8 +70,13 @@ class Agente:
                     model=modelo, contents=self.historico, config=self.config
                 )
                 return resposta, modelo
-            except errors.ServerError as erro:
-                # 5xx é instabilidade do provedor: tenta o modelo reserva em vez de falhar.
+            except (errors.ServerError, httpx.TimeoutException) as erro:
+                # 5xx ou timeout é instabilidade do provedor: tenta o modelo reserva em vez de falhar.
+                ultimo_erro = erro
+            except errors.ClientError as erro:
+                # A cota é por modelo, então 429 em um não impede o reserva. Outros 4xx são bug nosso.
+                if erro.code != 429:
+                    raise
                 ultimo_erro = erro
         raise ultimo_erro
 
