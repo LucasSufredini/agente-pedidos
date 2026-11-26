@@ -1,0 +1,93 @@
+[
+  {
+    "id": "restricao_dupla_com_preco",
+    "mensagens": ["Quero algo vegano e sem glúten até R$ 35"],
+    "menciona": ["Escondidinho", "Sunomono"],
+    "nao_menciona": ["Pizza Vegana", "Poke de Tofu", "Yakisoba", "Wrap de Falafel"],
+    "nao_chama": ["montar_pedido"]
+  },
+  {
+    "id": "categoria_com_preco",
+    "mensagens": ["Tem comida japonesa até 30 reais?"],
+    "menciona": ["Sunomono", "Temaki"],
+    "nao_menciona": ["Hot Roll", "Combinado", "Yakisoba"]
+  },
+  {
+    "id": "mais_barato_da_categoria",
+    "mensagens": ["Qual a pizza mais barata?"],
+    "menciona": ["Calzone", "38,90"]
+  },
+  {
+    "id": "pedido_com_quantidade",
+    "mensagens": ["Quero 2 smash clássicos e uma batata"],
+    "pedido": {"6": 2, "10": 1},
+    "menciona": ["76,70"]
+  },
+  {
+    "id": "preco_impossivel",
+    "mensagens": ["Quero pizza por R$ 2"],
+    "menciona_algum": ["não encontrei", "não temos", "não há", "nenhuma", "não tem", "não existe"],
+    "nao_chama": ["montar_pedido"]
+  },
+  {
+    "id": "fora_do_escopo",
+    "mensagens": ["Qual a capital da França?"],
+    "nao_menciona": ["Paris"],
+    "sem_ferramentas": true
+  },
+  {
+    "id": "restricao_em_sobremesa",
+    "mensagens": ["Tem alguma sobremesa sem lactose?"],
+    "menciona": ["Mousse de Maracujá"],
+    "nao_menciona": ["Brigadeiro", "Brownie", "Açaí"]
+  },
+  {
+    "id": "hamburguer_vegetariano",
+    "mensagens": ["Quero um hambúrguer vegetariano"],
+    "menciona": ["Grão-de-Bico"],
+    "nao_menciona": ["Bacon", "Smash"]
+  },
+  {
+    "id": "tag_picante",
+    "mensagens": ["Tem algo apimentado?"],
+    "menciona": ["Burguer Picante"]
+  },
+  {
+    "id": "multiturno_referencia",
+    "mensagens": ["Quais pizzas vocês têm?", "Quero 2 da margherita e 1 de quatro queijos"],
+    "pedido": {"1": 2, "3": 1},
+    "menciona": ["135,70"]
+  },
+  {
+    "id": "restaurantes_diferentes",
+    "mensagens": ["Quero uma feijoada completa e um refrigerante lata"],
+    "pedido": {"16": 1, "30": 1},
+    "menciona": ["52,80"],
+    "menciona_algum": ["separad", "diferentes"]
+  },
+  {
+    "id": "categoria_saudavel_com_preco",
+    "mensagens": ["O que tem de saudável até 30 reais?"],
+    "menciona": ["Caesar", "Falafel"],
+    "nao_menciona": ["Poke", "Bowl de Frango"]
+  },
+  {
+    "id": "quantidade_por_extenso",
+    "mensagens": ["Me vê três açaís"],
+    "pedido": {"28": 3},
+    "menciona": ["68,70"]
+  },
+  {
+    "id": "prato_inexistente",
+    "mensagens": ["Quero uma lasanha à bolonhesa"],
+    "menciona_algum": ["não encontrei", "não temos", "não há", "nenhuma", "não tem", "não existe", "infelizmente"],
+    "nao_chama": ["montar_pedido"],
+    "nao_menciona": ["lasanha à bolonhesa por R$"]
+  },
+  {
+    "id": "ingrediente_com_restricao",
+    "mensagens": ["Quero um prato com peixe e sem glúten"],
+    "menciona": ["Moqueca"],
+    "nao_menciona": ["Combinado", "Hot Roll"]
+  }
+]

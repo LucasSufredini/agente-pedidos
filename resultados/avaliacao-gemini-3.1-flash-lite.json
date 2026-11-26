@@ -1,0 +1,342 @@
+{
+  "data": "2026-11-26T09:35:49",
+  "modelo_pedido": "gemini-3.1-flash-lite",
+  "acertos": 15,
+  "avaliados": 15,
+  "indisponiveis": 0,
+  "tempo_medio_s": 8.1,
+  "casos": [
+    {
+      "id": "restricao_dupla_com_preco",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 4.6,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "filtrar_por_preco",
+          "argumentos": {
+            "preco_max": 35
+          }
+        }
+      ],
+      "resposta": "Encontrei estas opções veganas e sem glúten até R$ 35:\n\n*   **Sunomono** (Sakura Sushi) - R$ 14,90\n*   **Batata Frita Rústica** (Brasa Burguer) - R$ 16,90\n*   **Escondidinho de Mandioca Vegano** (Panela de Barro) - R$ 33,90\n*   **Mousse de Maracujá Vegano** (Doce Ponto) - R$ 13,90\n*   **Suco Verde** (Verde Leve) - R$ 12,90\n*   **Refrigerante Lata** (Doce Ponto) - R$ 6,90\n\nQual desses você gostaria de pedir?"
+    },
+    {
+      "id": "categoria_com_preco",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 23.1,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "filtrar_por_preco",
+          "argumentos": {
+            "categoria": "japonesa",
+            "preco_max": 30
+          }
+        }
+      ],
+      "resposta": "Temos estas opções de comida japonesa até R$ 30,00:\n\n*   **Sunomono** (Sakura Sushi) - R$ 14,90\n*   **Temaki de Salmão** (Sakura Sushi) - R$ 27,90\n\nGostaria de pedir algum deles?"
+    },
+    {
+      "id": "mais_barato_da_categoria",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 1.5,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "filtrar_por_preco",
+          "argumentos": {
+            "categoria": "pizza",
+            "preco_max": 1000
+          }
+        }
+      ],
+      "resposta": "A pizza mais barata é a Calzone de Frango, por R$ 38,90! Gostaria de pedir uma?"
+    },
+    {
+      "id": "pedido_com_quantidade",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 27.4,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "smash clássico"
+          }
+        },
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "batata"
+          }
+        },
+        {
+          "nome": "montar_pedido",
+          "argumentos": {
+            "quantidades": [
+              2,
+              1
+            ],
+            "ids": [
+              6,
+              10
+            ]
+          }
+        }
+      ],
+      "resposta": "Aqui está o seu pedido:\n\n*   **2x Smash Clássico** (Brasa Burguer) - R$ 59,80\n*   **1x Batata Frita Rústica** (Brasa Burguer) - R$ 16,90\n\n**Total: R$ 76,70**"
+    },
+    {
+      "id": "preco_impossivel",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 2.4,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "filtrar_por_preco",
+          "argumentos": {
+            "categoria": "pizza",
+            "preco_max": 2
+          }
+        }
+      ],
+      "resposta": "Sinto muito, mas não encontrei nenhuma pizza por esse valor. O preço mínimo das nossas pizzas é um pouco mais alto. Gostaria de ver as opções disponíveis ou buscar por outra faixa de preço?"
+    },
+    {
+      "id": "fora_do_escopo",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 1.3,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [],
+      "resposta": "Sinto muito, mas só posso ajudar com pedidos de comida! Posso te ajudar a encontrar algo gostoso para comer hoje?"
+    },
+    {
+      "id": "restricao_em_sobremesa",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 2.9,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "tags": [
+              "sem_lactose"
+            ],
+            "categoria": "sobremesa"
+          }
+        }
+      ],
+      "resposta": "Temos sim! O Mousse de Maracujá Vegano (Doce Ponto) está disponível por R$ 13,90. Ele é vegetariano, vegano, sem glúten e sem lactose. Gostaria de pedir?"
+    },
+    {
+      "id": "hamburguer_vegetariano",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 4.4,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "tags": [
+              "vegetariano"
+            ],
+            "categoria": "hamburguer"
+          }
+        }
+      ],
+      "resposta": "Encontrei o \"Burguer de Grão-de-Bico\" no Brasa Burguer por R$ 32,90. Gostaria que eu montasse o pedido dele para você?"
+    },
+    {
+      "id": "tag_picante",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 24.7,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "tags": [
+              "picante"
+            ]
+          }
+        }
+      ],
+      "resposta": "Temos sim! O \"Burguer Picante\" do Brasa Burguer, que custa R$ 34,90. Gostaria de pedir ele?"
+    },
+    {
+      "id": "multiturno_referencia",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 3.6,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "categoria": "pizza"
+          }
+        },
+        {
+          "nome": "montar_pedido",
+          "argumentos": {
+            "ids": [
+              1,
+              3
+            ],
+            "quantidades": [
+              2,
+              1
+            ]
+          }
+        }
+      ],
+      "resposta": "Pedido montado com sucesso! Aqui está o resumo:\n\n*   **2x Pizza Margherita** (Forno da Vila): R$ 85,80\n*   **1x Pizza Quatro Queijos** (Forno da Vila): R$ 49,90\n\n**Total: R$ 135,70**\n\nDeseja confirmar o pedido ou precisa de mais alguma coisa?"
+    },
+    {
+      "id": "restaurantes_diferentes",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 2.9,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "feijoada"
+          }
+        },
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "categoria": "bebida",
+            "termo": "refrigerante lata"
+          }
+        },
+        {
+          "nome": "montar_pedido",
+          "argumentos": {
+            "ids": [
+              16,
+              30
+            ],
+            "quantidades": [
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "resposta": "Aqui está o seu pedido:\n\n*   **Feijoada Completa** (Panela de Barro): R$ 45,90\n*   **Refrigerante Lata** (Doce Ponto): R$ 6,90\n\n**Total:** R$ 52,80\n\n*Aviso: Itens de restaurantes diferentes geram entregas separadas.*"
+    },
+    {
+      "id": "categoria_saudavel_com_preco",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 6.0,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "filtrar_por_preco",
+          "argumentos": {
+            "categoria": "saudavel",
+            "preco_max": 30
+          }
+        }
+      ],
+      "resposta": "Temos estas opções saudáveis até R$ 30,00:\n\n*   **Wrap de Falafel** (Verde Leve) - R$ 26,90 (vegano, vegetariano, sem lactose)\n*   **Salada Caesar** (Verde Leve) - R$ 28,90\n\nGostaria de pedir algum deles?"
+    },
+    {
+      "id": "quantidade_por_extenso",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 2.4,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "açaí"
+          }
+        },
+        {
+          "nome": "montar_pedido",
+          "argumentos": {
+            "ids": [
+              28
+            ],
+            "quantidades": [
+              3
+            ]
+          }
+        }
+      ],
+      "resposta": "Aqui estão seus três açaís:\n\n*   **3x Açaí 500ml** (Doce Ponto)\n*   **Total:** R$ 68,70\n\nDeseja adicionar mais alguma coisa ao seu pedido?"
+    },
+    {
+      "id": "prato_inexistente",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 13.3,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "lasanha à bolonhesa"
+          }
+        },
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "lasanha"
+          }
+        }
+      ],
+      "resposta": "Sinto muito, não encontrei lasanha à bolonhesa nem outras opções de lasanha no momento. Gostaria de ver outras opções de massas ou algum outro prato?"
+    },
+    {
+      "id": "ingrediente_com_restricao",
+      "status": "passou",
+      "falhas": [],
+      "tentativas": 1,
+      "segundos": 1.5,
+      "modelo": "gemini-3.1-flash-lite",
+      "ferramentas": [
+        {
+          "nome": "buscar_pratos",
+          "argumentos": {
+            "termo": "peixe",
+            "tags": [
+              "sem_gluten"
+            ]
+          }
+        }
+      ],
+      "resposta": "Encontrei a Moqueca de Peixe (R$ 58,90) no restaurante Panela de Barro, que é sem glúten e sem lactose. Gostaria que eu montasse o pedido com este prato?"
+    }
+  ]
+}
