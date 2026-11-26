@@ -16,7 +16,8 @@ log = logging.getLogger("agente")
 FERRAMENTAS = {f.__name__: f for f in (buscar_pratos, filtrar_por_preco, montar_pedido)}
 MAX_ITERACOES = 5
 TIMEOUT_MS = 20_000
-RESERVAS_PADRAO = "gemini-3.5-flash,gemini-3.1-flash-lite"
+MODELO_PADRAO = "gemini-3.1-flash-lite"
+RESERVAS_PADRAO = "gemini-3.5-flash,gemini-3.8-flash"
 PAUSA_COTA_S = 600
 PAUSA_INSTABILIDADE_S = 60
 
@@ -62,7 +63,7 @@ class Agente:
             modelo_reserva = os.getenv("GEMINI_MODEL_RESERVA", RESERVAS_PADRAO)
         self.modelos = [
             m.strip()
-            for m in [modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"), *modelo_reserva.split(",")]
+            for m in [modelo or os.getenv("GEMINI_MODEL", MODELO_PADRAO), *modelo_reserva.split(",")]
             if m.strip()
         ]
         self.config = types.GenerateContentConfig(
