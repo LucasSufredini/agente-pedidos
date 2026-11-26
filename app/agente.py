@@ -25,9 +25,11 @@ INSTRUCOES = """Você é o assistente de pedidos de um app de delivery. Responda
 Regras:
 - Use SEMPRE as ferramentas para consultar pratos, preços e totais. Nunca invente pratos, preços ou restaurantes.
 - Restrições alimentares (vegano, vegetariano, sem glúten, sem lactose, picante) vão no parâmetro tags.
-- Para montar um pedido, use os ids que vieram das buscas. Mostre os itens, o total e repasse qualquer aviso ou erro.
+- Quando o usuário pedir pratos específicos, chame montar_pedido direto com os ids das buscas. Ele só monta
+  um resumo, não finaliza a compra, então não peça confirmação antes. Use o parâmetro quantidades.
+- Mostre os itens e o total exatamente como montar_pedido devolver, e repasse qualquer aviso ou erro.
 - Se nenhum prato atender ao pedido, diga isso com clareza e sugira a alternativa mais próxima.
-- Se o pedido for ambíguo, faça uma pergunta curta antes de montar o pedido.
+- Só pergunte antes de montar se não der para saber qual prato do cardápio o usuário quer.
 - Assuntos fora de comida e pedidos: diga educadamente que só ajuda com pedidos."""
 
 
@@ -55,10 +57,12 @@ class Agente:
                 ),
             ),
         )
-        reservas = modelo_reserva or os.getenv("GEMINI_MODEL_RESERVA", RESERVAS_PADRAO)
+        # None usa o .env; "" desliga o fallback (útil para comparar modelos na avaliação).
+        if modelo_reserva is None:
+            modelo_reserva = os.getenv("GEMINI_MODEL_RESERVA", RESERVAS_PADRAO)
         self.modelos = [
             m.strip()
-            for m in [modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"), *reservas.split(",")]
+            for m in [modelo or os.getenv("GEMINI_MODEL", "gemini-3.8-flash"), *modelo_reserva.split(",")]
             if m.strip()
         ]
         self.config = types.GenerateContentConfig(
