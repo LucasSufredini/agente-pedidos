@@ -104,7 +104,9 @@ def montar_pedido(ids: list[int], quantidades: list[int] | None = None) -> dict:
         return {"erro": "ids e quantidades precisam ter o mesmo tamanho."}
 
     por_id = {p["id"]: p for p in carregar_cardapio()}
-    itens, erros = [], []
+    # Agrupa ids repetidos: o modelo às vezes pede [28, 28, 28] em vez de quantidade 3.
+    agrupado: dict[int, int] = {}
+    erros = []
     for prato_id, quantidade in zip(ids, quantidades):
         prato = por_id.get(int(prato_id))
         if prato is None:
@@ -112,13 +114,18 @@ def montar_pedido(ids: list[int], quantidades: list[int] | None = None) -> dict:
         elif quantidade < 1:
             erros.append(f"Quantidade inválida para {prato['nome']}: {quantidade}.")
         else:
-            itens.append({
-                "id": prato["id"],
-                "nome": prato["nome"],
-                "restaurante": prato["restaurante"],
-                "quantidade": int(quantidade),
-                "subtotal": round(prato["preco"] * quantidade, 2),
-            })
+            agrupado[prato["id"]] = agrupado.get(prato["id"], 0) + int(quantidade)
+
+    itens = [
+        {
+            "id": prato_id,
+            "nome": por_id[prato_id]["nome"],
+            "restaurante": por_id[prato_id]["restaurante"],
+            "quantidade": quantidade,
+            "subtotal": round(por_id[prato_id]["preco"] * quantidade, 2),
+        }
+        for prato_id, quantidade in agrupado.items()
+    ]
 
     restaurantes = sorted({item["restaurante"] for item in itens})
     pedido = {

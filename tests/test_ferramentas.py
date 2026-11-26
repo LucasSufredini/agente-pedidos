@@ -72,6 +72,15 @@ class TestMontarPedido:
         assert pedido["erros"] == []
         assert "aviso" not in pedido
 
+    def test_agrupa_ids_repetidos(self):
+        pedido = montar_pedido([28, 28, 28])
+        assert [(i["id"], i["quantidade"]) for i in pedido["itens"]] == [(28, 3)]
+        assert pedido["total"] == pytest.approx(22.90 * 3)
+
+    def test_soma_quantidades_de_ids_repetidos(self):
+        pedido = montar_pedido([6, 10, 6], [1, 1, 2])
+        assert [(i["id"], i["quantidade"]) for i in pedido["itens"]] == [(6, 3), (10, 1)]
+
     def test_quantidade_padrao_e_um(self):
         pedido = montar_pedido([6])
         assert pedido["itens"][0]["quantidade"] == 1
